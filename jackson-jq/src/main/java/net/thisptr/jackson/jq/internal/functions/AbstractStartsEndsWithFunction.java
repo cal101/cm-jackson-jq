@@ -24,7 +24,7 @@ public abstract class AbstractStartsEndsWithFunction implements Function {
 
 	@Override
 	public void apply(final Scope scope, final List<Expression> args, final JsonNode in, final Path ipath, final PathOutput output, final Version version) throws JsonQueryException {
-		args.get(0).apply(scope, in, (needle) -> {
+		args.get(0).apply(scope, in, needle -> {
 			if (!needle.isTextual() || !in.isTextual())
 				throw new JsonQueryException(fname + "() requires string inputs");
 			output.emit(BooleanNode.valueOf(doCheck(in.asText(), needle.asText())), null);

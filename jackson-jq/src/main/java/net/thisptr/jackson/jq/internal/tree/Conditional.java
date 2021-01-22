@@ -23,7 +23,7 @@ public class Conditional implements Expression {
 
 	private void pathRecursive(PathOutput output, Scope scope, List<Pair<Expression, Expression>> switches, JsonNode in, Path path) throws JsonQueryException {
 		final Pair<Expression, Expression> sw = switches.get(0);
-		sw._1.apply(scope, in, (r) -> {
+		sw._1.apply(scope, in, r -> {
 			if (JsonNodeUtils.asBoolean(r)) {
 				sw._2.apply(scope, in, path, output, false);
 			} else {

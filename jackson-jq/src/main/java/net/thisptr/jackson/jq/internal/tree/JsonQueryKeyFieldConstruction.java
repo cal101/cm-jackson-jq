@@ -18,10 +18,10 @@ public class JsonQueryKeyFieldConstruction implements FieldConstruction {
 
 	@Override
 	public void evaluate(final Scope scope, final JsonNode in, final FieldConsumer consumer) throws JsonQueryException {
-		key.apply(scope, in, (k) -> {
+		key.apply(scope, in, k -> {
 			if (!k.isTextual())
 				throw new JsonQueryTypeException("Cannot use %s as object key", k);
-			value.apply(scope, in, (v) -> consumer.accept(k.asText(), v));
+			value.apply(scope, in, v -> consumer.accept(k.asText(), v));
 		});
 	}
 

@@ -24,7 +24,7 @@ public class HasFunction implements Function {
 			output.emit(BooleanNode.FALSE, null);
 			return;
 		}
-		args.get(0).apply(scope, in, (keyName) -> {
+		args.get(0).apply(scope, in, keyName -> {
 			if (in.isObject()) {
 				if (!keyName.isTextual())
 					throw new JsonQueryException("argument 1 of has() must be string for object input");

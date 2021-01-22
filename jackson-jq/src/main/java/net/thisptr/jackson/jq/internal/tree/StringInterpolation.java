@@ -46,9 +46,9 @@ public class StringInterpolation implements Expression {
 		} else {
 			final Pair<Integer, Expression> rhead = interpolations.get(interpolations.size() - 1);
 			final List<Pair<Integer, Expression>> rtail = interpolations.subList(0, interpolations.size() - 1);
-			rhead._2.apply(scope, in, (interpolated) -> {
+			rhead._2.apply(scope, in, interpolated -> {
 				if (formatter != null) {
-					formatter.apply(scope, interpolated, (formatted) -> {
+					formatter.apply(scope, interpolated, formatted -> {
 						stack.push(Pair.of(rhead._1, formatted));
 						recurse(scope, in, output, stack, rtail);
 						stack.pop();

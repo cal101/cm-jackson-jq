@@ -22,7 +22,7 @@ public class SemicolonOperator implements Expression {
 		if (qs.isEmpty())
 			return;
 		for (final Expression q : qs.subList(0, qs.size() - 1))
-			q.apply(scope, in, (out) -> {});
+			q.apply(scope, in, out -> {});
 		qs.get(qs.size() - 1).apply(scope, in, path, output, requirePath);
 	}
 

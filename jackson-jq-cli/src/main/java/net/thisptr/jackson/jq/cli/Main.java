@@ -115,7 +115,7 @@ public class Main {
 				if (tree == null)
 					continue;
 				try {
-					jq.apply(scope, tree, (out) -> {
+					jq.apply(scope, tree, out -> {
 						if (out.isTextual() && command.hasOption(OPT_RAW.getOpt())) {
 							System.out.println(out.asText());
 						} else {

@@ -29,7 +29,7 @@ public class DelPathsFunction implements Function {
 
 	@Override
 	public void apply(final Scope scope, final List<Expression> args, final JsonNode in, final Path ipath, final PathOutput output, final Version version) throws JsonQueryException {
-		args.get(0).apply(scope, in, (paths) -> {
+		args.get(0).apply(scope, in, paths -> {
 			if (!paths.isArray()) {
 				throw new JsonQueryException("Paths must be specified as an array");
 			}
@@ -45,7 +45,7 @@ public class DelPathsFunction implements Function {
 			JsonNode out = in;
 			for (int i = sortedPaths.size() - 1; i >= 0; --i) {
 				final Path path = PathUtils.toPath(sortedPaths.get(i));
-				out = path.mutate(out, (oldval) -> {
+				out = path.mutate(out, oldval -> {
 					if ((path instanceof ArrayRangeIndexPath) && oldval.isArray()) {
 						final ArrayNode newval = scope.getObjectMapper().createArrayNode();
 						for (int j = 0; j < oldval.size(); ++j)
@@ -62,7 +62,7 @@ public class DelPathsFunction implements Function {
 				}, false);
 			}
 
-			output.emit(JsonNodeUtils.filter(out, (val) -> !val.isMissingNode()), null);
+			output.emit(JsonNodeUtils.filter(out, val -> !val.isMissingNode()), null);
 		});
 	}
 }

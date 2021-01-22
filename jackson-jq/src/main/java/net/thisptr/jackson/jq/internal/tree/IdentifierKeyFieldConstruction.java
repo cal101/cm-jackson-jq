@@ -25,7 +25,7 @@ public class IdentifierKeyFieldConstruction implements FieldConstruction {
 		if (value == null) {
 			consumer.accept(key, JsonNodeUtils.nullToNullNode(in.get(key)));
 		} else {
-			value.apply(scope, in, (v) -> consumer.accept(key, v));
+			value.apply(scope, in, v -> consumer.accept(key, v));
 		}
 	}
 

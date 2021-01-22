@@ -28,26 +28,26 @@ public class RangeFunction implements Function {
 	@Override
 	public void apply(final Scope scope, final List<Expression> args, final JsonNode in, final Path ipath, final PathOutput output, final Version version) throws JsonQueryException {
 		if (args.size() == 1) {
-			args.get(0).apply(scope, in, (end) -> {
+			args.get(0).apply(scope, in, end -> {
 				range1(output, end);
 			});
 		} else if (args.size() == 2) {
-			args.get(0).apply(scope, in, (start) -> {
+			args.get(0).apply(scope, in, start -> {
 				if (version.compareTo(Versions.JQ_1_5) <= 0) {
 					final JsonNode[] cur = new JsonNode[] { start }; // only reset when start changes [v1.5]
-					args.get(1).apply(scope, in, (end) -> {
+					args.get(1).apply(scope, in, end -> {
 						cur[0] = range2(output, cur[0], end);
 					});
 				} else {
-					args.get(1).apply(scope, in, (end) -> {
+					args.get(1).apply(scope, in, end -> {
 						range2(output, start, end);
 					});
 				}
 			});
 		} else {
-			args.get(0).apply(scope, in, (start) -> {
-				args.get(1).apply(scope, in, (end) -> {
-					args.get(2).apply(scope, in, (incr) -> {
+			args.get(0).apply(scope, in, start -> {
+				args.get(1).apply(scope, in, end -> {
+					args.get(2).apply(scope, in, incr -> {
 						range3(output, start, end, incr);
 					});
 				});

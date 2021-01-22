@@ -24,7 +24,7 @@ public class SplitFunction implements Function {
 
 	@Override
 	public void apply(final Scope scope, final List<Expression> args, final JsonNode in, final Path ipath, final PathOutput output, final Version version) throws JsonQueryException {
-		args.get(0).apply(scope, in, (sep) -> {
+		args.get(0).apply(scope, in, sep -> {
 			if (!in.isTextual() || !sep.isTextual())
 				throw new JsonQueryTypeException("split input and separator must be strings");
 

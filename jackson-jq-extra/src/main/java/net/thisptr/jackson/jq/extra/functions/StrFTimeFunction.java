@@ -28,12 +28,12 @@ public class StrFTimeFunction implements Function {
 		Preconditions.checkInputType("strptime", in, JsonNodeType.NUMBER);
 
 		try {
-			args.get(0).apply(scope, in, (fmt) -> {
+			args.get(0).apply(scope, in, fmt -> {
 				if (!fmt.isTextual())
 					throw new JsonQueryTypeException("Illegal argument type: %s", fmt.getNodeType());
 				final SimpleDateFormat sdf = new SimpleDateFormat(fmt.asText());
 				if (args.size() == 2) {
-					args.get(1).apply(scope, in, (tz) -> {
+					args.get(1).apply(scope, in, tz -> {
 						if (!tz.isTextual())
 							throw new JsonQueryTypeException("Timezone must be a string");
 						sdf.setTimeZone(TimeZone.getTimeZone(tz.asText()));

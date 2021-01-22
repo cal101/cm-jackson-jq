@@ -26,7 +26,7 @@ public class IndexFunction implements Function {
 			return;
 		}
 
-		args.get(0).apply(scope, in, (needle) -> {
+		args.get(0).apply(scope, in, needle -> {
 			final List<Integer> tmp = IndicesFunction.indices(needle, in);
 			if (tmp.isEmpty()) {
 				output.emit(NullNode.getInstance(), null);

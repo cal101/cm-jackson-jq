@@ -35,17 +35,17 @@ public class _SubImplFunction implements Function {
 	public void apply(final Scope scope, final List<Expression> args, final JsonNode in, final Path ipath, final PathOutput output, final Version version) throws JsonQueryException {
 		Preconditions.checkInputType("_sub_impl/3", in, JsonNodeType.STRING);
 
-		args.get(0).apply(scope, in, (regexText) -> {
+		args.get(0).apply(scope, in, regexText -> {
 			Preconditions.checkArgumentType("_sub_impl/3", 1, regexText, JsonNodeType.STRING);
 
-			args.get(2).apply(scope, in, (flagsText) -> {
+			args.get(2).apply(scope, in, flagsText -> {
 				Preconditions.checkArgumentType("_sub_impl/3", 3, flagsText, JsonNodeType.STRING);
 
 				final OnigUtils.Pattern p = new OnigUtils.Pattern(regexText.asText(), flagsText.asText());
 				final List<JsonNode> match = match(scope.getObjectMapper(), p, in.asText());
 
 				// This just repeats same emit()s the number of times as the number of flags. This is to emulate jq behavior (which is probably a bug).
-				args.get(2).apply(scope, in, (dummy) -> {
+				args.get(2).apply(scope, in, dummy -> {
 					replaceAndConcat(scope, new Stack<>(), output, match, args.get(1), in, args.get(2));
 				});
 			});
@@ -70,7 +70,7 @@ public class _SubImplFunction implements Function {
 			replaceAndConcat(scope, stack, output, rtail, replaceExpr, in, flags);
 			stack.pop();
 		} else {
-			replaceExpr.apply(scope, rhead, (replacement) -> {
+			replaceExpr.apply(scope, rhead, replacement -> {
 				stack.push(replacement.asText());
 				replaceAndConcat(scope, stack, output, rtail, replaceExpr, in, flags);
 				stack.pop();

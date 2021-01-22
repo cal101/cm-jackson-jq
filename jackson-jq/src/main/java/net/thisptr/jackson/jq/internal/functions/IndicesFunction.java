@@ -34,7 +34,7 @@ public class IndicesFunction implements Function {
 			return;
 		}
 
-		args.get(0).apply(scope, in, (needle) -> {
+		args.get(0).apply(scope, in, needle -> {
 			final ArrayNode indices = scope.getObjectMapper().createArrayNode();
 			for (final int index : indices(needle, in))
 				indices.add(index);

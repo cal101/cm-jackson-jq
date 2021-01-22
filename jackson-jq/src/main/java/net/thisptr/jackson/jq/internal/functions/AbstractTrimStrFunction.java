@@ -17,7 +17,7 @@ public abstract class AbstractTrimStrFunction implements Function {
 
 	@Override
 	public void apply(final Scope scope, final List<Expression> args, final JsonNode in, final Path ipath, final PathOutput output, final Version version) throws JsonQueryException {
-		args.get(0).apply(scope, in, (trimText) -> {
+		args.get(0).apply(scope, in, trimText -> {
 			if (!in.isTextual() || !trimText.isTextual()) {
 				output.emit(in, ipath);
 				return;

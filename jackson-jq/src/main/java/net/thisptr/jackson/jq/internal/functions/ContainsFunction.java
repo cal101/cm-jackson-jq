@@ -26,7 +26,7 @@ public class ContainsFunction implements Function {
 
 	@Override
 	public void apply(final Scope scope, final List<Expression> args, final JsonNode in, final Path ipath, final PathOutput output, final Version version) throws JsonQueryException {
-		args.get(0).apply(scope, in, (value) -> {
+		args.get(0).apply(scope, in, value -> {
 			if (in.getNodeType() != value.getNodeType()
 					|| (in.isBoolean() && in.asBoolean() != value.asBoolean())) {
 				throw new JsonQueryTypeException("%s and %s cannot have their containment checked", in, value);

@@ -32,12 +32,12 @@ public class ReduceExpression implements Expression {
 
 	@Override
 	public void apply(final Scope scope, final JsonNode in, final Path ipath, final PathOutput output, final boolean requirePath) throws JsonQueryException {
-		initExpr.apply(scope, in, (accumulator) -> {
+		initExpr.apply(scope, in, accumulator -> {
 			// Wrap in array to allow mutation inside lambda
 			final JsonNode[] accumulators = new JsonNode[] { accumulator };
 
 			final Scope childScope = Scope.newChildScope(scope);
-			iterExpr.apply(scope, in, (item) -> {
+			iterExpr.apply(scope, in, item -> {
 				final Stack<Pair<String, JsonNode>> stack = new Stack<>();
 				matcher.match(scope, item, (final List<Pair<String, JsonNode>> vars) -> {
 					for (int i = vars.size() - 1; i >= 0; --i) {

@@ -36,7 +36,7 @@ public class HostnameFunction implements Function {
 	@Override
 	public void apply(final Scope scope, final List<Expression> args, final JsonNode in, final Path ipath, final PathOutput output, final Version version) throws JsonQueryException {
 		if (args.size() == 1) {
-			args.get(0).apply(scope, in, (arg) -> {
+			args.get(0).apply(scope, in, arg -> {
 				if (arg.isTextual() && "fqdn".equals(arg.asText())) {
 					output.emit(fqdn, null);
 				} else {

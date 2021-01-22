@@ -36,7 +36,7 @@ public class PipedQuery implements Expression {
 
 		if (head instanceof AssignPipeComponent) {
 			final Scope childScope = Scope.newChildScope(scope);
-			((AssignPipeComponent) head).expr.apply(scope, in, (o) -> {
+			((AssignPipeComponent) head).expr.apply(scope, in, o -> {
 				final Stack<MatchWithPath> accumulate = new Stack<>();
 				((AssignPipeComponent) head).matcher.matchWithPath(scope, o, path, (final List<MatchWithPath> vars) -> {
 					// Set values in reverse order since if there is the variable name crash,

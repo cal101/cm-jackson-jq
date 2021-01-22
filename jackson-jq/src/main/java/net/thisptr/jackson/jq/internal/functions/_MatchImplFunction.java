@@ -38,11 +38,11 @@ public class _MatchImplFunction implements Function {
 		final byte[] ibytes = in.asText().getBytes(StandardCharsets.UTF_8);
 		final int[] cindex = UnicodeUtils.UTF8CharIndex(ibytes);
 
-		args.get(2).apply(scope, in, (test) -> {
+		args.get(2).apply(scope, in, test -> {
 			Preconditions.checkArgumentType("_match_impl/3", 3, test, JsonNodeType.BOOLEAN);
-			args.get(1).apply(scope, in, (flags) -> {
+			args.get(1).apply(scope, in, flags -> {
 				Preconditions.checkArgumentType("_match_impl/3", 2, flags, JsonNodeType.STRING, JsonNodeType.NULL);
-				args.get(0).apply(scope, in, (regex) -> {
+				args.get(0).apply(scope, in, regex -> {
 					Preconditions.checkArgumentType("_match_impl/3", 1, regex, JsonNodeType.STRING);
 					final OnigUtils.Pattern p = new OnigUtils.Pattern(regex.asText(), flags.isNull() ? null : flags.asText());
 					output.emit(match(scope.getObjectMapper(), p, ibytes, cindex, test.asBoolean()), null);
