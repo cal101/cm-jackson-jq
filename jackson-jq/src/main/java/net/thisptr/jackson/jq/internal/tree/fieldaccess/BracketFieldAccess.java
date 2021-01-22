@@ -41,8 +41,8 @@ public class BracketFieldAccess extends FieldAccess {
 	public void apply(final Scope scope, final JsonNode in, final Path path, final PathOutput output, final boolean requirePath) throws JsonQueryException {
 		target.apply(scope, in, path, (pobj, ppath) -> {
 			if (isRange) {
-				startExpr.apply(scope, in, (start) -> {
-					endExpr.apply(scope, in, (end) -> {
+				startExpr.apply(scope, in, start -> {
+					endExpr.apply(scope, in, end -> {
 						if ((start.isNumber() || start.isNull()) && (end.isNumber() || end.isNull())) {
 							emitArrayRangeIndexPath(permissive, start, end, pobj, ppath, output, requirePath);
 						} else {
@@ -52,7 +52,7 @@ public class BracketFieldAccess extends FieldAccess {
 					});
 				});
 			} else { // isRange == false
-				startExpr.apply(scope, in, (accessor) -> {
+				startExpr.apply(scope, in, accessor -> {
 					if (accessor.isNumber()) {
 						emitArrayIndexPath(permissive, accessor, pobj, ppath, output, requirePath);
 					} else if (accessor.isTextual()) {

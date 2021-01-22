@@ -37,7 +37,7 @@ public class UpdateAssignment extends BinaryOperatorExpression {
 			if (lpath == null)
 				throw new JsonQueryException("Invalid path expression with result %s", JsonNodeUtils.toString(lval));
 
-			out[0] = lpath.mutate(out[0], (lval_) -> {
+			out[0] = lpath.mutate(out[0], lval_ -> {
 				final List<JsonNode> rvals = new ArrayList<>();
 				rhs.apply(scope, lval_ == null ? NullNode.getInstance() : lval_, rvals::add);
 				if (rvals.isEmpty())

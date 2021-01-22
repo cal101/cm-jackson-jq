@@ -31,7 +31,7 @@ public class StringFieldAccess extends FieldAccess {
 
 	@Override
 	public void apply(final Scope scope, final JsonNode in, final Path path, final PathOutput output, final boolean requirePath) throws JsonQueryException {
-		field.apply(scope, in, (key) -> {
+		field.apply(scope, in, key -> {
 			target.apply(scope, in, path, (pobj, ppath) -> {
 				if (!key.isTextual() && !permissive)
 					throw new IllegalStateException(); // FIXME: exception type

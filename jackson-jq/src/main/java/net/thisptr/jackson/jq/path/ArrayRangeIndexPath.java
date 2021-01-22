@@ -47,9 +47,7 @@ public class ArrayRangeIndexPath implements Path {
 
 	@Override
 	public JsonNode mutate(final JsonNode in, final Mutation mutation, final boolean makeParent) throws JsonQueryException {
-		return parent.mutate(in, (oldval) -> {
-			return mutate(oldval, start, end, mutation);
-		}, makeParent);
+		return parent.mutate(in, oldval -> mutate(oldval, start, end, mutation), makeParent);
 	}
 
 	@Override

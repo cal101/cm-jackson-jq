@@ -31,7 +31,7 @@ public class ObjectMatcher implements PatternMatcher {
 		final Expression keyexpr = kvexpr._1;
 		final PatternMatcher matcher = kvexpr._2;
 
-		keyexpr.apply(scope, in, (key) -> {
+		keyexpr.apply(scope, in, key -> {
 			if (!key.isTextual())
 				throw new JsonQueryTypeException("Cannot index %s with %s", in.getNodeType(), key.getNodeType());
 
@@ -52,7 +52,7 @@ public class ObjectMatcher implements PatternMatcher {
 		final Expression keyexpr = kvexpr._1;
 		final PatternMatcher matcher = kvexpr._2;
 
-		keyexpr.apply(scope, in, (key) -> {
+		keyexpr.apply(scope, in, key -> {
 			if (!key.isTextual())
 				throw new JsonQueryTypeException("Cannot index %s with %s", in.getNodeType(), key.getNodeType());
 

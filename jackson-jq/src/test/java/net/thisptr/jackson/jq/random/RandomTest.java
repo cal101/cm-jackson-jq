@@ -67,18 +67,14 @@ public class RandomTest {
 
 	private static Map<Version, Set<String>> EXCLUDED_FUNCTIONS = new HashMap<>();
 	static {
-		EXCLUDED_FUNCTIONS.computeIfAbsent(Versions.JQ_1_5, k -> {
-			return new HashSet<>(Arrays.asList(new String[] {
-					"debug_scope/0", // a debug function for jackson-jq
-					"log2/0", // log2 has slightly different precisions
-			}));
-		});
-		EXCLUDED_FUNCTIONS.computeIfAbsent(Versions.JQ_1_6, k -> {
-			return new HashSet<>(Arrays.asList(new String[] {
-					"debug_scope/0", // a debug function for jackson-jq
-					"log2/0", // log2 has slightly different precisions
-			}));
-		});
+		EXCLUDED_FUNCTIONS.computeIfAbsent(Versions.JQ_1_5, k -> new HashSet<>(Arrays.asList(new String[] {
+				"debug_scope/0", // a debug function for jackson-jq
+				"log2/0", // log2 has slightly different precisions
+		})));
+		EXCLUDED_FUNCTIONS.computeIfAbsent(Versions.JQ_1_6, k -> new HashSet<>(Arrays.asList(new String[] {
+				"debug_scope/0", // a debug function for jackson-jq
+				"log2/0", // log2 has slightly different precisions
+		})));
 	}
 
 	private static List<Generator> GENERATORS = new ArrayList<>();
@@ -87,23 +83,23 @@ public class RandomTest {
 
 	@BeforeAll
 	static void beforeAll() {
-		GENERATORS.add(new RandomGenerator(2, (exprs) -> new PlusExpression(exprs.get(0), exprs.get(1))));
-		GENERATORS.add(new RandomGenerator(2, (exprs) -> new MinusExpression(exprs.get(0), exprs.get(1))));
-		GENERATORS.add(new RandomGenerator(2, (exprs) -> new ModuloExpression(exprs.get(0), exprs.get(1))));
-		GENERATORS.add(new RandomGenerator(2, (exprs) -> new BooleanAndExpression(exprs.get(0), exprs.get(1))));
-		GENERATORS.add(new RandomGenerator(2, (exprs) -> new BooleanOrExpression(exprs.get(0), exprs.get(1))));
-		GENERATORS.add(new RandomGenerator(2, (exprs) -> new AlternativeOperatorExpression(exprs.get(0), exprs.get(1))));
-		GENERATORS.add(new RandomGenerator(3, (exprs) -> new Tuple(exprs)));
-		GENERATORS.add(new RandomGenerator(1, (exprs) -> new ArrayConstruction(exprs.get(0))));
-		GENERATORS.add(new RandomGenerator(2, (exprs) -> new MultiplyExpression(exprs.get(0), exprs.get(1))));
-		GENERATORS.add(new RandomGenerator(2, (exprs) -> new DivideExpression(exprs.get(0), exprs.get(1))));
-		GENERATORS.add(new RandomGenerator(0, (exprs) -> new ThisObject()));
-		GENERATORS.add(new RandomGenerator(2, (exprs) -> new BracketFieldAccess(exprs.get(0), exprs.get(1), true)));
-		GENERATORS.add(new RandomGenerator(2, (exprs) -> new BracketFieldAccess(exprs.get(0), exprs.get(1), false)));
-		GENERATORS.add(new RandomGenerator(3, (exprs) -> new BracketFieldAccess(exprs.get(0), exprs.get(1), exprs.get(2), true)));
-		GENERATORS.add(new RandomGenerator(3, (exprs) -> new BracketFieldAccess(exprs.get(0), exprs.get(1), exprs.get(2), false)));
-		GENERATORS.add(new RandomGenerator(1, (exprs) -> new BracketExtractFieldAccess(exprs.get(0), true)));
-		GENERATORS.add(new RandomGenerator(1, (exprs) -> new BracketExtractFieldAccess(exprs.get(0), false)));
+		GENERATORS.add(new RandomGenerator(2, exprs -> new PlusExpression(exprs.get(0), exprs.get(1))));
+		GENERATORS.add(new RandomGenerator(2, exprs -> new MinusExpression(exprs.get(0), exprs.get(1))));
+		GENERATORS.add(new RandomGenerator(2, exprs -> new ModuloExpression(exprs.get(0), exprs.get(1))));
+		GENERATORS.add(new RandomGenerator(2, exprs -> new BooleanAndExpression(exprs.get(0), exprs.get(1))));
+		GENERATORS.add(new RandomGenerator(2, exprs -> new BooleanOrExpression(exprs.get(0), exprs.get(1))));
+		GENERATORS.add(new RandomGenerator(2, exprs -> new AlternativeOperatorExpression(exprs.get(0), exprs.get(1))));
+		GENERATORS.add(new RandomGenerator(3, Tuple::new));
+		GENERATORS.add(new RandomGenerator(1, exprs -> new ArrayConstruction(exprs.get(0))));
+		GENERATORS.add(new RandomGenerator(2, exprs -> new MultiplyExpression(exprs.get(0), exprs.get(1))));
+		GENERATORS.add(new RandomGenerator(2, exprs -> new DivideExpression(exprs.get(0), exprs.get(1))));
+		GENERATORS.add(new RandomGenerator(0, exprs -> new ThisObject()));
+		GENERATORS.add(new RandomGenerator(2, exprs -> new BracketFieldAccess(exprs.get(0), exprs.get(1), true)));
+		GENERATORS.add(new RandomGenerator(2, exprs -> new BracketFieldAccess(exprs.get(0), exprs.get(1), false)));
+		GENERATORS.add(new RandomGenerator(3, exprs -> new BracketFieldAccess(exprs.get(0), exprs.get(1), exprs.get(2), true)));
+		GENERATORS.add(new RandomGenerator(3, exprs -> new BracketFieldAccess(exprs.get(0), exprs.get(1), exprs.get(2), false)));
+		GENERATORS.add(new RandomGenerator(1, exprs -> new BracketExtractFieldAccess(exprs.get(0), true)));
+		GENERATORS.add(new RandomGenerator(1, exprs -> new BracketExtractFieldAccess(exprs.get(0), false)));
 
 		final Set<String> exclusions = EXCLUDED_FUNCTIONS.getOrDefault(VERSION, Collections.emptySet());
 		BuiltinFunctionLoader.getInstance().listFunctions(Scope.class.getClassLoader(), VERSION, Scope.newEmptyScope()).forEach((signature, function) -> {
@@ -114,9 +110,9 @@ public class RandomTest {
 				final String name = signature.split("/", 2)[0];
 				if (exclusions.contains(name))
 					return;
-				GENERATORS.add(new RandomGenerator(numArgs, (exprs) -> new FunctionCall(name, exprs, VERSION)));
+				GENERATORS.add(new RandomGenerator(numArgs, exprs -> new FunctionCall(name, exprs, VERSION)));
 			} else {
-				GENERATORS.add(new RandomGenerator(0, 10, (exprs) -> new FunctionCall(signature, exprs, VERSION)));
+				GENERATORS.add(new RandomGenerator(0, 10, exprs -> new FunctionCall(signature, exprs, VERSION)));
 			}
 		});
 	}

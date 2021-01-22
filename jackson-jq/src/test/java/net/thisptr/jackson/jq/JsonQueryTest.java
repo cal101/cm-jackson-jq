@@ -159,7 +159,7 @@ public class JsonQueryTest {
 			return;
 		}
 
-		if (!tc.ignoreTrueJqBehavior && hasJqCache.computeIfAbsent(version, v -> TrueJqEvaluator.hasJq(v))) {
+		if (!tc.ignoreTrueJqBehavior && hasJqCache.computeIfAbsent(version, TrueJqEvaluator::hasJq)) {
 			final Result result = cachedJqEvaluator.evaluate(tc.q, tc.in, version, 2000L);
 			assumeThat(result.error).as("%s", command).isNull();
 			assumeThat(wrap(tc.out)).as("%s", command).isEqualTo(wrap(result.values));

@@ -48,9 +48,7 @@ public class ObjectFieldPath implements Path {
 
 	@Override
 	public JsonNode mutate(final JsonNode in, final Mutation mutation, final boolean makeParent) throws JsonQueryException {
-		return parent.mutate(in, (oldval) -> {
-			return mutate(oldval, key, mutation, makeParent);
-		}, makeParent);
+		return parent.mutate(in, oldval -> mutate(oldval, key, mutation, makeParent), makeParent);
 	}
 
 	private static JsonNode mutate(JsonNode in, final String key, final Mutation mutation, final boolean makeParent) throws JsonQueryException {

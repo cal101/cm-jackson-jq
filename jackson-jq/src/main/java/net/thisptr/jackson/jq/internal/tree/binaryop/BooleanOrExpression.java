@@ -17,12 +17,12 @@ public class BooleanOrExpression extends BinaryOperatorExpression {
 
 	@Override
 	public void apply(final Scope scope, final JsonNode in, final Path ipath, final PathOutput output, final boolean requirePath) throws JsonQueryException {
-		lhs.apply(scope, in, (l) -> {
+		lhs.apply(scope, in, l -> {
 			if (JsonNodeUtils.asBoolean(l)) {
 				output.emit(BooleanNode.TRUE, null);
 				return;
 			}
-			rhs.apply(scope, in, (r) -> {
+			rhs.apply(scope, in, r -> {
 				output.emit(BooleanNode.valueOf(JsonNodeUtils.asBoolean(r)), null);
 			});
 		});

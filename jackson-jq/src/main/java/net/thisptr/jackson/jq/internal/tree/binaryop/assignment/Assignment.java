@@ -22,7 +22,7 @@ public class Assignment extends BinaryOperatorExpression {
 
 	@Override
 	public void apply(final Scope scope, final JsonNode in, final Path ipath, final PathOutput output, final boolean requirePath) throws JsonQueryException {
-		rhs.apply(scope, in, (rval) -> {
+		rhs.apply(scope, in, rval -> {
 			final List<Path> lpaths = new ArrayList<>();
 			lhs.apply(scope, in, RootPath.getInstance(), (lval, lpath) -> {
 				// `VALUE | path(VALUE) => []`
@@ -34,7 +34,7 @@ public class Assignment extends BinaryOperatorExpression {
 			}, true);
 			JsonNode out = in;
 			for (final Path lpath : lpaths)
-				out = lpath.mutate(out, (lval_) -> rval);
+				out = lpath.mutate(out, lval_ -> rval);
 			output.emit(out, null);
 		});
 	}

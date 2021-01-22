@@ -52,9 +52,7 @@ public class ArrayIndexPath implements Path {
 
 	@Override
 	public JsonNode mutate(final JsonNode in, final Mutation mutation, final boolean makeParent) throws JsonQueryException {
-		return parent.mutate(in, (oldval) -> {
-			return mutate(oldval, index, mutation, makeParent, !makeParent);
-		}, makeParent);
+		return parent.mutate(in, oldval -> mutate(oldval, index, mutation, makeParent, !makeParent), makeParent);
 	}
 
 	private static JsonNode mutate(JsonNode in, final JsonNode index, final Mutation mutation, final boolean makeParent, final boolean deleteMode) throws JsonQueryException {

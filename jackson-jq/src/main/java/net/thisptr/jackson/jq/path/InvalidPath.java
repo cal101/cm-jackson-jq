@@ -32,7 +32,7 @@ public class InvalidPath implements Path {
 
 	@Override
 	public JsonNode mutate(final JsonNode in, final Mutation mutation, final boolean makeParent) throws JsonQueryException {
-		return parent.mutate(in, (oldval) -> {
+		return parent.mutate(in, oldval -> {
 			throw new JsonQueryException(String.format("Cannot index %s with %s", in.getNodeType().toString().toLowerCase(), index.getNodeType().toString().toLowerCase()));
 		}, makeParent);
 	}

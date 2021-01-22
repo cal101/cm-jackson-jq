@@ -38,7 +38,7 @@ public class Usage {
 		rootScope.addFunction("repeat", 1, new Function() {
 			@Override
 			public void apply(Scope scope, List<Expression> args, JsonNode in, Path path, PathOutput output, Version version) throws JsonQueryException {
-				args.get(0).apply(scope, in, (time) -> {
+				args.get(0).apply(scope, in, time -> {
 					output.emit(new TextNode(Strings.repeat(in.asText(), time.asInt())), null);
 				});
 			}
